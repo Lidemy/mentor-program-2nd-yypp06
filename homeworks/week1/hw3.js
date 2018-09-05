@@ -1,12 +1,12 @@
 function String(str) {
-  splitString = str.split('');  
-  arr = [];
-  a = splitString.length - 1; 
+  let splitString = str.split('');  
+  let arr = [];
+  let a = splitString.length - 1; 
   for (i = a; i > -1; i--) { 
     arr.push(splitString[i]);
     
   }
-  str = arr.join('');
+  let str = arr.join('');
   return str;
 }
 
