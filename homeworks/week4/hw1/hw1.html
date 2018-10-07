@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style>
+        .number_pad{
+            width: 500px;
+            height: auto;  
+            border-style: solid; 
+        }
+
+        .number_button > button{
+            width: 24%;
+            height: auto;
+            font-size: 50px;
+            margin: 3px 0;
+            padding: 10px 20px;
+            text-align: center;
+            box-sizing: border-box; 
+        }
+
+        .number_button > button.ac{
+            width: 74%;
+        }
+
+        .number_button > button.zero{
+            width: 49%;
+        }
+
+        .number_button > button:hover{
+            cursor: pointer;
+            border-color: #AAAAAA;
+        }
+
+        .result {
+            width: 500px;
+            height: 76px;
+            text-align: right;  
+            border-bottom-style: solid;
+            font-size: 60px;
+            margin-bottom: 2px;
+        }
+
+        .equal > button{
+            text-align: center;
+            width: 241px;
+            height: 33px;
+            line-height: 20px;
+            font-size: 50px;
+
+        }
+
+        .equal > button:hover{
+            cursor: pointer;
+            border-color: #AAAAAA;
+        }    
+    </style>
+</head>
+<body>
+    <div class="number_pad">
+        <div class="result">0</div>
+        <div class="number_button">  
+            <button class="ac">AC</button>
+            <button class="operator">÷</button>
+        </div>
+        <div class="number_button">  
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button class="operator">+</button>
+        </div>
+        <div class="number_button">
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button class="operator">-</button>
+        </div>
+        <div class="number_button">  
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button class="operator">x</button>
+                         
+        </div>
+        <div class="number_button">  
+            <button class="number zero">0</button>
+        <button class="number">.</button>   
+        <button class="equal">=</button></div> 
+    </div>
+</body>
+<script>
+    var elemResult = document.querySelector('.result');
+    var hasClickOperator = false;
+    var before = '';
+    var after = '';
+    var operator = '';
+    var result = '';
+
+    var doAc = function(){
+        elemResult.innerText = 0;
+    }
+
+    var clear = function(){
+        elemResult.innerText = '';
+    }
+
+    var displayNum = function(num){
+        document.querySelector('.result').innerText = num;
+    }
+
+    document.querySelector('.number_pad').addEventListener('click', e => {
+        switch(e.target.className) {
+            case 'ac':
+                doAc();
+                break;
+            case 'number':
+                //console.log(elemResult.innerText);
+                if(elemResult.innerText == 0 && !hasClickOperator){
+                    clear();
+                } else if(elemResult.innerText == 0 && hasClickOperator){
+                    clear();
+                } else if(hasClickOperator){
+                    clear();
+                    hasClickOperator = false;
+                }
+                elemResult.innerText += e.target.innerText;
+                break;
+            case 'operator':
+                operator = e.target.innerText;
+                
+                //remember before value
+                before = elemResult.innerText;
+
+                //operator
+                if(!hasClickOperator){
+                    hasClickOperator = true;
+                }
+
+                //result
+                break;
+            case 'equal':
+                after = elemResult.innerText;
+                if(operator == '+'){
+                    result = parseFloat(after) + parseFloat(before);
+                }
+                
+                if(operator == '-'){
+                    result = parseFloat(before) - parseFloat(after);
+                }
+               
+                if(operator == 'x'){
+                    result = parseFloat(after) * parseFloat(before);
+                }
+  
+                if(operator == '÷'){
+                    result = parseFloat(before) / parseFloat(after);
+                }
+                elemResult.innerText = result;
+                break;
+
+
+            default:
+                //code block
+        }
+    })
+</script>
+</html>
