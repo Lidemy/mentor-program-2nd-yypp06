@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <style>
+            body{
+                background: url(https://static.appledaily.hk/images/apple-photos/apple/20170323/large/a0702a.gif);
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+            }
+            .header{
+                text-align: center;
+                padding: 30px;
+                color: white;
+                background: #00000080;
+                margin-bottom: 20px;
+            }
+            .content{
+                margin: 50px auto;
+
+            }
+            .col{
+                display: inline-block;
+
+            }
+            .col:hover {
+                cursor: pointer;
+                opacity: 1;
+                transform: scale(1.05, 1.05);
+            }
+
+            .row{
+                display: inline-block;
+                margin-left: 120px;
+            }
+            
+            .preview{
+                width: 50px;
+                height: 50px;
+            }
+            .bottom{
+                width: 320px;
+                display: flex;
+                align-items:flex-end;
+                background: #000000cc;
+                box-sizing: border-box;
+                padding-top: 145px;
+                padding-left: 13px;
+                padding-right: 12px;
+                padding-bottom: 9px;           
+            }
+
+            .title {
+                display: flex;
+                flex-direction: column;
+                color: white;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+            .logo img {
+                width: 70px;
+                border: none;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+            }
+        </style>
+
+<body>
+    <header class="header">
+                <h1>League of Legends</h1>
+                <h2>Top 20 live streams with the most current viewers.</h2>
+    </header>
+    <div class='content'>
+
+        <div class='row'></div>
+    
+    </div>
+    
+</body>
+<script>
+    
+
+function getData(cb){
+
+    //連線
+    let id = '4xd1wa46xeu34o2iyx5xanw5op5e4n';
+    let game = 'League%20of%20Legends';
+    let limit = 20;
+    let apiUrl = 'https://api.twitch.tv/kraken/streams/?game=' + game + '&limit=' + limit;
+    //發Request拿取API
+    let xhr = new XMLHttpRequest()
+    xhr.open('GET', apiUrl, true)
+    xhr.setRequestHeader('client-id',id)
+    xhr.send()
+    //得到資料
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+            let data = JSON.parse(this.responseText);
+            console.log(data.streams);
+            cb(null, data);
+        }  
+    }   
+}
+
+getData((err, data) => {
+    let streams = data.streams;
+    let row = document.querySelector('.row');
+    for(let stream of streams){
+        row.innerHTML += getColumn(stream);
+    }
+})
+    
+
+function getColumn(data){
+    return `
+        <div class='col'>
+            <a href='${data.channel.url}' target="_blank">
+                <div class='preview'>
+                    <img src='${data.preview.medium}'/>
+                </div>
+                <div class='bottom'>
+                    <div class='intro'>
+                    </div>
+                    <div class='logo'>
+                            <img src='${data.channel.logo}'/>
+                        </div>
+                    <div class='desc'>
+                        <div class='title'>
+                                ${data.channel.status}
+                            </div>
+                            <div class='name'>
+                                ${data.channel.display_name}
+                            </div>
+                        
+                    </div>
+                </div>
+             </a>
+        </div>`
+}
+    
+
+    
+
+</script>
+</html>

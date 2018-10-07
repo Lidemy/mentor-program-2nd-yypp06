@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<style>
+    #non{
+        font-size: 50px;
+    }
+
+</style>
+<body>
+    <button id='btn1'>HIDE</button>
+    <button id='btn2'>SHOW</button>
+    <div id='non'>yoyoyaya</div>
+    
+</body>
+<script>
+
+    var q = function(idName){
+        return document.getElementById(idName)
+    }
+
+    q("btn1").addEventListener("click",hideP);
+    q("btn2").addEventListener("click",showP);
+    
+
+    function hideP(){
+        q("non").style.display = "none";
+    }
+    
+    function showP(){
+        q('non').style.display = "block";
+    }
+
+
+
+</script>
+
+</html>
+
+

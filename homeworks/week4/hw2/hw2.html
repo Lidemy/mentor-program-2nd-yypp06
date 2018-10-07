@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>googleForm</title>
+    <style>
+        
+        body{
+            margin: 0;
+            background: Beige;
+        }
+
+        .backGround{
+            background-image: url("https://s2.wp.com/wp-content/themes/pub/twentyten/images/headers/path.jpg");
+            width: 100%;
+            height: 260px;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .content{
+            background: white;
+            width: 570px;
+            display: block;
+            border-style: inset;
+            padding: 32px;
+            text-align: left;
+            margin: 0px auto;
+            margin-top: -100px;
+        }
+
+        h2{
+            margin: 0px auto;
+        }
+
+        .star{
+            color: red;
+        }
+        
+        .p{
+            font-size: 12px;
+        }
+
+        .notic{
+            color: red;
+            display: none;
+            background: pink;
+        }
+        
+        .err .notic{
+            display: block;
+        }
+
+        .errbackground{
+            background: white;
+            padding: 25px;
+            margin: -1px -25px;
+        }
+
+        .err.errbackground{
+            background: pink;
+        }
+
+        .finish{
+            background-color: #4169E1;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            margin: 1px 0px;
+        }
+        
+        .bottom{
+            text-align:center;
+
+        }
+
+        .bottom div{
+            color: #DCDCDC; 
+            font-size:25px;
+        }
+    </style>
+</head>
+<body>
+    <div class ="backGround"></div>  
+    <div class="content" id="content">
+        <h1>程式導師實驗計畫第二期報名表單</h1>
+        <p>詳情請參考： <a href="https://medium.com/hulis-blog/mentor-program-s2-f876c4e13d3b">https://medium.com/hulis-blog/mentor-program-s2-f876c4e13d3b</a></p>
+        <p>填完之後請務必按照文章內的說明再寄信給我，才算報名成功喔</p>
+        <form name="myForm">
+            <div style="color: red">*必填</div>
+            <div class="errbackground"> 
+                <h2>電子郵件地址 <span class="star">*</span></h2>
+                <input type="email" name="email" id="email" placeholder="您的電子郵件"> 
+                <div class="notic">這是必填問題</div>
+            </div>   
+            <div class="errbackground"> 
+                <h2>暱稱 <span class="star">*</span></h2>
+                <p>該如何稱呼你</p>
+                <input type="text" name="nickname" id="nickname" placeholder="您的回答"> 
+                <div class="notic">這是必填問題</div>
+            </div>
+            <div class="errbackground">
+                <h2>報名類型 <span class="star">*</span></h2> 
+                <input type="radio" name="order" id="zero"/><label for="zero">從零到一基礎班（一個月後開始收保證金 3000，淘汰不退還，結業後兩個月內找到工作付一個月半薪水，沒工作不用付</label><br/>
+                <input type="radio" name="order" id="one"/><label for="one">在職工程師加強班（一個月後開始收保證金 3000，兩個月時收學費 30000，被淘汰不退還)</label>
+            </div>
+            <div class="errbackground">
+                <h2>現在的職業 <span class="star">*</span></h2>
+                <p>範例：學生、前端工程師、待業中、業務</p>
+                <input type="text" name="learn" id="learn" placeholder="您的回答" />
+                <div class="notic">這是必填問題</div>
+            </div>
+            <div class="errbackground">
+                <h2>是否有程式相關背景？ <span class="star">*</span></h2>
+                <p>範例：無、高中時候學過C++、學過一點網頁前端、目前在資策會上課...</p>
+                <input type="text" name="yesOrNo" id="yesOrNo" placeholder="您的回答"/><br><br>
+                <div class="notic">這是必填問題</div>
+            </div>
+            <h2>其他</h2>          
+            <p>任何你想說的</p>
+            <input type="text" name="other" placeholder="您的回答"/><br><br>
+            <input type="submit" class="finish">
+            <p>請勿利用 Google 表單送出密碼。</p>
+        </form>
+    </div>
+    <div class="bottom">
+        <p>Google 並未認可或建立這項內容。 檢舉濫用情形 - 服務條款 - 其他條款</p>
+        <div>Google 表單</div>
+    </div>
+    <br>
+    <br>
+
+  
+</body>
+<script>
+
+    function emailForm() {
+        var x = document.forms["myForm"]["email"].value;
+        if (x == "") {
+            return false
+        }else{
+            return true
+        }
+    }
+
+    function nicknameForm() {
+        var x = document.forms["myForm"]["nickname"].value;
+        if (x == "") {
+            return false
+
+        }else{
+            return true
+        }
+    }
+
+    function orderForm() {
+        var x = document.forms["myForm"]["order"].value;
+        if (x == "") {
+            return false
+        }else{
+            return true
+        }
+    }
+
+    function learnForm() {
+        var x = document.forms["myForm"]["learn"].value;
+        if (x == "") {
+            return false
+        }else{
+            return true
+        }
+    }
+
+    function yesOrNoForm() {
+        var x = document.forms["myForm"]["yesOrNo"].value;
+        if (x == "") {
+            return false
+        }else{
+            return true
+        }
+    }
+
+    document.querySelector('.finish').addEventListener('click', e =>{
+        e.preventDefault();
+        let zero = document.getElementById('zero');
+        let one = document.getElementById('one');
+
+        if(!emailForm()){
+            var element = document.getElementById("email").parentNode;
+            element.classList.add("err");
+        }
+        else{
+            var element = document.getElementById("email").parentNode;
+            element.classList.remove("err");
+        }
+
+        if(!nicknameForm()){
+            var element = document.getElementById("nickname").parentNode;
+            element.classList.add("err");
+        
+        }
+        else{
+            var element = document.getElementById("nickname").parentNode;
+            element.classList.remove("err");    
+        }
+        
+        if(!one.checked && !zero.checked){
+            var element = document.getElementById("one").parentNode;
+            element.classList.add("err");
+        }
+        else{    
+            var element = document.getElementById("one").parentNode;
+            element.classList.remove("err"); 
+        }
+
+        if(!learnForm()){
+            var element = document.getElementById("learn").parentNode;
+            element.classList.add("err");
+        }
+        else{
+            var element = document.getElementById("learn").parentNode;
+            element.classList.remove("err");    
+        }   
+        
+        if(!yesOrNoForm()){
+            var element = document.getElementById("yesOrNo").parentNode;
+            element.classList.add("err");
+        }
+        else{
+            var element = document.getElementById("yesOrNo").parentNode;
+            element.classList.remove("err");
+        
+
+        }if (emailForm() && nicknameForm() && learnForm() && yesOrNoForm() ){
+            alert('submit');
+        }
+    });
+
+
+</script>
+</html>
