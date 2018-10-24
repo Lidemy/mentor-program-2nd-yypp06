@@ -1,17 +1,18 @@
 <?
     require_once('conn.php');
 
-    $session_id = $_COOKIE["session_id"];
+    session_start();
     $is_login = false;
-    $user_id = '';
     $nickname = '';
-
-    if(isset($_COOKIE['user_id']) && !empty($_COOKIE['user_id'])){
+ 
+    //echo $_SESSION['user_id'];
+    if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
         $is_login = true;
-        $user_id = $_COOKIE['user_id'];
+        
     }else{
 
     }
+    
     
 ?>
 

@@ -5,17 +5,17 @@
     if(!empty($_POST['username'])){
         $nickname = $_POST['nickname'];
         $username = $_POST['username'];
-        $password =password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password =password_hash($_POST['password'], PASSWORD_DEFAULT,['cost' => 11]);
         $sql = "INSERT INTO yypp06_users (username, password, nickname)VALUES('$username','$password','$nickname')";
 
 
         $conn->query($sql);
         $conn->close();
-        header('Location: index.php');
+        //header('Location: login.php');
+        echo '註冊成功，請重新登入一次';
     }
-
-    
 ?>   
+
 
 <!DOCTYPE html>
 <html>

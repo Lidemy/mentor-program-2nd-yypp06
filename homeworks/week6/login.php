@@ -1,29 +1,28 @@
 <?php
     require_once('conn.php');
     
+    session_start();
+    if(!empty($_POST['username'])){
         $username = $_POST['username'];
         $password = $_POST['password'];
-
-        $sql = $conn->prepare( "SELECT * FROM yypp06_users WHERE username=? ");
-        $sql->bind_param("s" ,$username ); 
-        $sql->execute();
-        $sql_result = $sql->get_result();
-        $sql_row = $sql_result->fetch_assoc();
-        $hash = $sql_row['password'];
-        $id = $sql_row['id'];
-    if (password_verify($password, $hash)) {
-        $session_id = uniqid(); 
-        $create = "INSERT INTO yypp06_certificates VALUES ('$session_id', $id, 1)";
-        $conn->query($create) or die ('error');
-        setcookie("session_id", $session_id, time()+3600*24); 
-        header('Location: forum.php');
-            }else{
-                header('Location: login.php');
-            }
-            $conn->close();
         
-    }   
-?>   
+        $stmt = $conn->prepare("SELECT * FROM yypp06_users where username=? and password=?");
+        $stmt->bind_param('ss', $username, $password);
+        $stmt->execute();
+        $result = $stmt->get_result(); 
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc(); 
+            $_SESSION['user_id'] = $row['id'];
+    
+            header('Location: index.php');
+        }else{
+            header('Location: login.php');
+        }
+        $conn->close();
+        
+    }
+
+?>    
 
 <!DOCTYPE html>
 <html>
