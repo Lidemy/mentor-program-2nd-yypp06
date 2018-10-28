@@ -1,21 +1,32 @@
 
 <?php
     require_once('conn.php');
+    session_start();
     
     if(!empty($_POST['username'])){
         $nickname = $_POST['nickname'];
         $username = $_POST['username'];
-        $password =password_hash($_POST['password'], PASSWORD_DEFAULT,['cost' => 11]);
+        $user_id = $_SESSION['id'];
+        $password = $_POST['password'];
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO yypp06_users (username, password, nickname)VALUES('$username','$password','$nickname')";
+        $result=$conn->query($sql);
+        $row = $result->fetch_assoc();
+       
+        
 
-
-        $conn->query($sql);
+        if($result){
+            $last_id=$conn->insert_id;
+            $_SESSION['username'] = $username;
+            $_SESSION['id'] = $row['id'];
+            
+        }
         $conn->close();
-        //header('Location: login.php');
-        echo '註冊成功，請重新登入一次';
+        header('Location: index.php');
     }
-?>   
 
+    
+?>   
 
 <!DOCTYPE html>
 <html>

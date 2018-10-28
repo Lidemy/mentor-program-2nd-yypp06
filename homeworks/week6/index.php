@@ -1,18 +1,17 @@
 <?
     require_once('conn.php');
-
     session_start();
     $is_login = false;
-    $nickname = '';
- 
-    //echo $_SESSION['user_id'];
-    if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
+    
+
+
+    if(isset($_SESSION['username'])){
+        
         $is_login = true;
         
     }else{
 
     }
-    
     
 ?>
 
@@ -136,7 +135,7 @@
                         <div class='author'><? echo $row['nickname'] ?></div>
                         <div class='creatTime'><? echo $row['time'] ?></div>
                     </div>
-                    <div class='content'><? echo htmlspecialchars($row['content'], ENT_QUOTES, 'utf-8') ?></div>
+                    <div class="content"><? echo htmlspecialchars($row['content'], ENT_QUOTES, 'utf-8') ?></div>
             </div>
 
             <div class='reply'>
@@ -157,7 +156,7 @@
                     <div class="content"><? echo htmlspecialchars($row['content'], ENT_QUOTES, 'utf-8') ?></div>
                 </div>
 <?
-    }   
+    }  
 ?>
                 <div class="boardForm">
                     <form method="POST" action="addComment.php">
@@ -170,6 +169,7 @@
                                 
                             }
                         ?>
+                        
                     </form>
                 </div>
             </div>

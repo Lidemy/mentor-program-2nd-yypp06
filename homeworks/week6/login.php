@@ -1,28 +1,38 @@
 <?php
-    require_once('conn.php');
-    
     session_start();
-    if(!empty($_POST['username'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        
-        $stmt = $conn->prepare("SELECT * FROM yypp06_users where username=? and password=?");
-        $stmt->bind_param('ss', $username, $password);
-        $stmt->execute();
-        $result = $stmt->get_result(); 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc(); 
-            $_SESSION['user_id'] = $row['id'];
-    
-            header('Location: index.php');
-        }else{
-            header('Location: login.php');
-        }
-        $conn->close();
-        
-    }
+    require_once('conn.php');
+   
+        if(!empty($_POST['username'])){
+            $username = mysqli_real_escape_string($conn,$_POST['username']);
+            $password = mysqli_real_escape_string($conn,$_POST['password']); 
 
-?>    
+            
+            $query ="SELECT * FROM yypp06_users WHERE username = '$username'";
+            $result = mysqli_query($conn, $query);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                if(password_verify($password, $row['password'])){
+                    echo 'Password is valid!';
+                    $_SESSION['username'] = $username;
+                    $_SESSION['id'] = $row['id'];
+                    header('Location: index.php');
+                }else{
+                    echo "<script>alert('帳號密碼有誤')</script>";
+                    header('Location: login.php');
+                }
+                
+                $conn->close();
+              
+            }   
+        }else{ 
+            echo "ggggggggg";
+
+        }
+     
+?>   
+
 
 <!DOCTYPE html>
 <html>

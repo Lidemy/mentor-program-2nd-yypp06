@@ -1,11 +1,12 @@
 
 <?php
+    session_start();
     require_once('conn.php');
-
-    $nickname = $_POST['nickname'];
+    //$nickname = $_POST['nickname'];
     $content = $_POST['content'];
     $parent_id = $_POST['parent_id'];
-    $user_id = $_COOKIE['user_id'];
+    $user_id = $_SESSION['id'];
+    echo $_SESSION['id'];
     $sql = "INSERT INTO yypp06_comments (user_id, content, parent_id)VALUES($user_id,'$content',$parent_id)";
 
 
