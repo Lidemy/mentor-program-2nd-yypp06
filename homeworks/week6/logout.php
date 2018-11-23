@@ -1,5 +1,4 @@
 <?
- session_start();
- session_destroy();
+ setcookie('token', '', time()+3600*24);
  header('Location: login.php');
 ?>

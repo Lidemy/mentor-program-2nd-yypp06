@@ -1,30 +1,28 @@
 
 <?php
     require_once('conn.php');
-    session_start();
+    require_once('utils.php');
     
-    if(!empty($_POST['username'])){
+
+    if(!empty($_POST['username']) && !empty($_POST['password']) && 
+       !empty($_POST['nickname']) && isset($_POST['password']) &&
+       isset($_POST['username']) && isset($_POST['nickname']) 
+        ){
         $nickname = $_POST['nickname'];
         $username = $_POST['username'];
-        $user_id = $_SESSION['id'];
-        $password = $_POST['password'];
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql = "INSERT INTO yypp06_users (username, password, nickname)VALUES('$username','$password','$nickname')";
-        $result=$conn->query($sql);
-        $row = $result->fetch_assoc();
-       
         
-
-        if($result){
-            $last_id=$conn->insert_id;
-            $_SESSION['username'] = $username;
-            $_SESSION['id'] = $row['id'];
+        if($conn->query($sql)){
+            setToken($conn, $username);
+            header('Location: index.php');
+        }else{
             
-        }
-        $conn->close();
-        header('Location: index.php');
+        
     }
-
+    $conn->close();
+    }
+    
     
 ?>   
 
@@ -75,4 +73,4 @@
         </div>
     </div>
 </body>
-</html>
+</html> 

@@ -1,38 +1,43 @@
 <?php
-    session_start();
     require_once('conn.php');
-   
-        if(!empty($_POST['username'])){
-            $username = mysqli_real_escape_string($conn,$_POST['username']);
-            $password = mysqli_real_escape_string($conn,$_POST['password']); 
+    require_once('utils.php');
+    
+    if(!empty($_POST['username']) && !empty($_POST['password']) && 
+        isset($_POST['password']) && isset($_POST['username'])
+        ){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        
 
-            
-            $query ="SELECT * FROM yypp06_users WHERE username = '$username'";
-            $result = mysqli_query($conn, $query);
+        $stmt = $conn->prepare("SELECT password FROM yypp06_users where username =?");
+        $stmt->bind_param('s', $username);
+        $result = $stmt->execute();
+        
+        if(!$result){
+            header('Location: login.php');            
+            exit();
+        }
+        $stmt->store_result();
+        if($stmt->num_rows <= 0){
+            header('Location: login.php');
+            exit();            
+        }
 
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
+        $stmt->bind_result($hash_password);
+        $stmt->fetch();
 
-                if(password_verify($password, $row['password'])){
-                    echo 'Password is valid!';
-                    $_SESSION['username'] = $username;
-                    $_SESSION['id'] = $row['id'];
-                    header('Location: index.php');
-                }else{
-                    echo "<script>alert('帳號密碼有誤')</script>";
-                    header('Location: login.php');
-                }
-                
-                $conn->close();
-              
-            }   
-        }else{ 
-            echo "ggggggggg";
+        if(password_verify($password, $hash_password)){
+            setToken($conn, $username);
+            header('Location: index.php');
+        }else{
+             
+            exit();  
 
         }
-     
+        $conn->close();
+        
+    }   
 ?>   
-
 
 <!DOCTYPE html>
 <html>

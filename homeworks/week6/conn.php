@@ -1,12 +1,12 @@
 <?php
 $conn = mysqli_connect(" "," "," "," ");
-$conn->query("SET NAMES 'UTF8'");
 
 
 // Check connection
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+if (mysqli_connect_errno()) {
+  die("Failed to connect to MySQL: " . mysqli_connect_error());
   }
+  $conn->query("SET NAMES 'UTF8'");
+  $conn->query("SET time_zone = '+08:00'");
   
 ?>
